@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
 
 const LoginModal = ({ isOpen, onClose }) => {
   const { register, handleSubmit } = useForm();
-
+  const [isLoginMode, setIsLoginMode] = useState(true);
+  
   const onSubmit = (data) => {
-    console.log('Logging in with:', data);
+    console.log(`${isLoginMode ? 'Logging in with:' : 'Registering with:'}`, data);
     onClose();
+  };
+
+  const toggleMode = () => {
+    if ((isLoginMode && document.activeElement.value !== 'Login') || (!isLoginMode && document.activeElement.value !== 'Register')) {
+      setIsLoginMode(!isLoginMode);
+    }
   };
 
   return (
@@ -22,14 +29,17 @@ const LoginModal = ({ isOpen, onClose }) => {
         <span></span>
         &times;
       </button>
-      <h2>Login</h2>
+      <div className='login-register'>
+        <input type='button' value={'Login'} onClick={toggleMode}></input>
+        <input type='button' value={'Register'} onClick={toggleMode}></input>  
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Username:
           <input
             className="login-input"
             type="text"
-            {...register('username', { required: 'Username is required' })}
+            {...register('username', { required: isLoginMode ? 'Username is required' : 'Username is required for registration' })}
           />
         </label>
         <label>
@@ -37,12 +47,12 @@ const LoginModal = ({ isOpen, onClose }) => {
           <input
             className="login-input"
             type="password"
-            {...register('password', { required: 'Password is required' })}
+            {...register('password', { required: isLoginMode ? 'Password is required' : 'Password is required for registration' })}
           />
         </label>
         <button className="login-button" type="submit">
           <span></span>
-          Login
+          {isLoginMode ? 'Login' : 'Register'}
         </button>
       </form>
     </Modal>
@@ -50,3 +60,5 @@ const LoginModal = ({ isOpen, onClose }) => {
 };
 
 export default LoginModal;
+
+

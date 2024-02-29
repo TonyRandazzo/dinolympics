@@ -1,10 +1,60 @@
+
 body {
   font: italic small-caps bold 16px/2 cursive;
   margin: 0;
   background:orange;
 }
 
+.preview{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.blue{
+  background-image: url('components/Immagini/0.png');
+}
+.yellow{
+  background-image: url('components/Immagini/1.png');
+}
+.red{
+  background-image: url('components/Immagini/2.png');
+}
+.green{
+  background-image: url('components/Immagini/3.png');
+}
+.sprite {
+  transform: scale(4,4);
+  width: 23px; 
+  height: 27px; 
+  animation: play-sprite 0.7s steps(4) infinite; 
+  image-rendering: pixelated;
+}
+.big-sprite-container{
+  background:rgba(245, 222, 179, 0.7);
+  border-radius: 20px;
+  border: 10px solid black;
+  padding: 90px;
+  overflow: hidden;
+}
 
+.big-sprite{
+  transform: scale(8,8);
+}
+
+@keyframes play-sprite {
+  from { background-position: 0,0; }
+  to { background-position: -96px,0; }
+}
+
+
+
+.rankings{
+  border: 3px solid black;
+  padding: 20px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.7);
+}
 .navbar {
   position: fixed;
   top: 0;  
@@ -43,7 +93,7 @@ nav ul {
   align-items: center;
   color: #ffff;
   font-weight: bold;
-  height: 80vh;
+  height: 70vh;
 }
 .button{
   display: flex;
@@ -62,8 +112,15 @@ nav ul {
   cursor: pointer;
   margin-bottom: 20px;
 }
+.shop{
+  display: flex;
+  border: 3px solid black;
+  padding: 20px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.7);
+}
 .corpo{
-  border-top: 8px solid wheat;
+  border-top: 8px solid rgb(238, 201, 133);
   background-image: url("components/Immagini/sfondo.png");
   background-size: 40%; 
   border-top-right-radius: 30px;
@@ -95,21 +152,39 @@ nav ul {
 .lista {
   display: block;
 }
-
-.shop{
-  display: flex;
+.card h3{
+  font-size: 21px;
 }
-.card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.card p{
+  font-size:10px ;
+}
+.card ul li{
+  background-color: #ffffff;
+  border: 3px solid #ccc;
+  border-radius: 30px;
   padding: 10px;
   margin: 10px;
   width: 200px;
+  height: 310px;
   text-align: center;
+}
+.card button{
+  background-color: rgb(255, 228, 74);
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.card button:hover{
+  background-color: gold;
 }
 
 .card img {
-  width: 100%;
+  height: 100px;
+  width: 100px;
   border-radius: 8px;
 }
 
@@ -125,15 +200,7 @@ nav ul {
 .customize{
   display: flex;
 }
-.customize img{
-  background:rgba(245, 222, 179, 0.7);
-  padding: 90px;
-  border-radius: 20px;
-  border: 10px solid black;
-  image-rendering: pixelated;
-  height: 260px;
-  width: 260px;
-}
+
 .mission-container {
   display: flex;
   flex-direction: column;
@@ -146,32 +213,57 @@ nav ul {
   justify-content: center;
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 10px;
 }
 .mission-header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: gold;
   flex: 1;
   padding: 10px;
-  border: 1px solid orange;
 }
 .mission-cell {
+  background: white;
   flex: 1;
   padding: 10px;
-  border: 1px solid yellow;
+  border: 1px solid lightgray;
 }
-
+h2{
+  text-align: center;
+  width: 20%;
+  border-radius: 20px;
+  border: 3px solid black;
+  background: white;
+}
 .skin{
   display: flex;
   margin: 50px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color:rgba(245, 222, 179, 0.7);
+}
+.login-register{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.skin img{
-  margin-left: 30px;
-  padding: 20px;
-  border-radius: 20px;
-  border: 5px solid black;
-  image-rendering: pixelated;
-  height: 40px;
-  width: 40px;
+.login-register input{
+  cursor: pointer;
+  font: italic small-caps bold 16px/2 cursive;
+  color: white;
+  height: 110%;
+  border: transparent;
+  background:transparent;
+  font-size: 20px;
+  width: 200px;
+  margin: 20px;
+  border-bottom: 1px solid white;
+  padding: 0 0 0px;
+  transition: 0.2s;
+}
+.login-register input:hover{
+  border-bottom: 10px solid white;
 }
 
 .login-container {

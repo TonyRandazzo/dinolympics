@@ -1,13 +1,13 @@
 import React from 'react';
 import Cart from './Immagini/shopping-cart.png';
 
-function Navbar({ openLoginModal }) {
+function Navbar({ openLoginModal, OpenShopCart }) {
   return (
     <div className='navbar'>
       <nav>
         <ul>
           <li>
-            <a href="#" target="_blank">
+            <a href="#" onClick={OpenShopCart}>
               <img className='cart' src={Cart} alt="Cart" />
             </a>
           </li>

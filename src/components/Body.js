@@ -1,76 +1,70 @@
-import React from 'react'
-import Dino from './Immagini/0.png';
-import Dino1 from './Immagini/1.png';
-import Dino2 from './Immagini/2.png';
-import Dino3 from './Immagini/3.png';
-import Item from './Immagini/1.png';
-import Item1 from './Immagini/2.png';
-import Item2 from './Immagini/3.png';
-function Body() {
+import React, { useState } from 'react';
+import Elements from './Elements';
+
+function Body({addToCart}) {
+  
   return (
     <div className='corpo'>
     <nav>
         <ul className='lista'>
             <li> <h2>Your Characheter</h2>
               <div className='customize'>
-                <img src={Dino}></img>
-                <div className='skin'>
-                    <h2>Skin</h2>
-                    <img src={Dino1}></img>
-                    <img src={Dino2}></img>
-                    <img src={Dino3}></img>
+                <div className='big-sprite-container'>
+                  <div className="big-sprite sprite blue"/>
                 </div>
+                  <div className="sprite blue skin"/>
+                  <div className="sprite red skin"/>
+                  <div className="sprite yellow skin"/>
+                  <div className="sprite green skin"/>
               </div>
             </li>
             <li><h2>Records</h2>
             <div className='records'>
-            <div class="mission-container">
-                <div class="mission-row">
-                <div class="mission-header"><h3>MiniGames</h3></div>
-                <div class="mission-header"><h3>Best Records</h3></div>
+            <div className="mission-container">
+                <div className="mission-row">
+                <div className="mission-header"><h3>MiniGames</h3></div>
+                <div className="mission-header"><h3>Best Records</h3></div>
                 </div>
-                <div class="mission-row">
-                <div class="mission-cell">Game 1</div>
-                <div class="mission-cell">2000</div>
+                <div className="mission-row">
+                <div className="mission-cell">Game 1</div>
+                <div className="mission-cell">2000</div>
                 </div>
-                <div class="mission-row">
-                <div class="mission-cell">Game 2</div>
-                <div class="mission-cell">2000</div>
+                <div className="mission-row">
+                <div className="mission-cell">Game 2</div>
+                <div className="mission-cell">2000</div>
                 </div>
-                <div class="mission-row">
-                <div class="mission-cell">Game 3</div>
-                <div class="mission-cell">2000</div>
+                <div className="mission-row">
+                <div className="mission-cell">Game 3</div>
+                <div className="mission-cell">2000</div>
                 </div>
                 </div>
             </div>
             </li>
             <li>
             <h2>Missioni</h2>
-            <div class="progress-bar-container">
-              <div class="progress-bars-container">
-                <div class="progress-bar Missions"> 
-                  <h2>
+            <div className="progress-bar-container">
+              <div className="progress-bars-container">
+                <div className="progress-bar Missions"> 
                     <label for="Missions"><a href="#Missions">Missions</a></label> 
-                  </h2>
                 </div>
               </div>
               </div>
-              <div class="mission-container">
-                <div class="mission-row">
-                <div class="mission-header"><h3>Missioni</h3></div>
-                <div class="mission-header"><h3>Descrizione</h3></div>
+              <div className="mission-container">
+                <div className="mission-row">
+                <div className="mission-header"><h3>Missioni</h3></div>
+                <div className="mission-header"><h3>Descrizione</h3></div>
                 </div>
-                <div class="mission-row">
-                <div class="mission-cell">Missione 1: nome missione</div>
-                <div class="mission-cell">descrizione della missione</div>
+                <div className="mission-row">
+                <div className="mission-cell">Missione 1: nome missione</div>
+                <div className="mission-cell">descrizione della missione</div>
                 </div>
-                <div class="mission-row">
-                <div class="mission-cell">Missione 2: nome missione</div>
-                <div class="mission-cell">descrizione della missione</div>
+                <div className="mission-row">
+                <div className="mission-cell">Missione 2: nome missione</div>
+                <div className="mission-cell">descrizione della missione</div>
                 </div>
-                <div class="mission-row">
-                <div class="mission-cell">Missione 3: nome missione</div>
-                <div class="mission-cell">descrizione della missione</div>
+                <div className="mission-row">
+                <div className="mission-cell">Missione 3: nome missione</div>
+                <div className="mission-cell">descrizione della missione</div>
                 </div>
                 </div>
             </li>
@@ -94,22 +88,8 @@ function Body() {
             </div>
 
             </li>
-            <li><h2>Shop</h2>
-              <div className='shop'>
-              <div class="card">
-                <img src="immagine1.jpg"></img>
-                <h3>Prodotto 1</h3>
-                <p>Descrizione del prodotto 1.</p>
-                <button className='addToCart'>Aggiungi al carrello</button>
-              </div>
-              <div class="card">
-                <img src="immagine2.jpg"></img>
-                <h3>Prodotto 2</h3>
-                <p>Descrizione del prodotto 2.</p>
-                <button className='addToCart'>Aggiungi al carrello</button>
-              </div>
-              </div>
-            </li>
+            <h2>Shop</h2>
+            <Elements addToCart={addToCart}/>
         </ul>
     </nav>
     </div>
