@@ -7,7 +7,7 @@ function Navbar({ openLoginModal, OpenShopCart }) {
       <nav>
         <ul>
           <li>
-            <a href="#" onClick={OpenShopCart}>
+            <a onClick={OpenShopCart}>
               <img className='cart' src={Cart} alt="Cart" />
             </a>
           </li>

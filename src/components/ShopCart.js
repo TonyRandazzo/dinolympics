@@ -1,7 +1,9 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { useCart } from './CartContext';
 
-const ShopCart = ({ isOpen, onClose, cart }) => {
+const ShopCart = ({ isOpen, onClose }) => {
+  const { cart } = useCart();
   const calculateTotal = () => {
     if (Array.isArray(cart) && cart.length > 0) {
       return cart.reduce((total, item) => total + item.price, 0);
@@ -28,6 +30,7 @@ const ShopCart = ({ isOpen, onClose, cart }) => {
           {cart.map((item, index) => (
             <li key={index}>
               <p>{item.name}</p>
+              <p>{item.quantity}</p>
               <p>Price: ${item.price}</p>
             </li>
           ))}

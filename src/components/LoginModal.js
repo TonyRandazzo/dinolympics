@@ -3,9 +3,9 @@ import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [isLoginMode, setIsLoginMode] = useState(true);
-  
+
   const onSubmit = (data) => {
     console.log(`${isLoginMode ? 'Logging in with:' : 'Registering with:'}`, data);
     onClose();
@@ -47,8 +47,15 @@ const LoginModal = ({ isOpen, onClose }) => {
           <input
             className="login-input"
             type="password"
-            {...register('password', { required: isLoginMode ? 'Password is required' : 'Password is required for registration' })}
+            {...register('password', { 
+              required: 'Password is required',
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 8 characters long',
+              },
+            })}
           />
+          {errors.password && <p className="error-message">{errors.password.message}</p>}
         </label>
         <button className="login-button" type="submit">
           <span></span>
@@ -60,5 +67,3 @@ const LoginModal = ({ isOpen, onClose }) => {
 };
 
 export default LoginModal;
-
-

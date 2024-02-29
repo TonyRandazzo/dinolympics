@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Elements from './Elements';
 
 function Body({addToCart}) {
-  
+
   return (
     <div className='corpo'>
     <nav>
         <ul className='lista'>
-            <li> <h2>Your Characheter</h2>
+            <li> <h2>Skin</h2>
               <div className='customize'>
                 <div className='big-sprite-container'>
                   <div className="big-sprite sprite blue"/>

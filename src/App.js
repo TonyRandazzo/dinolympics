@@ -4,11 +4,11 @@ import LoginModal from './components/LoginModal';
 import Body from './components/Body';
 import Button from './components/Button';
 import Navbar from './components/Navbar';
-import ShopCart from './components/ShopCart'; 
-
+import ShopCart from './components/ShopCart';
+import { CartProvider } from './components/CartContext';
 function App() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
-  const [isShopCartOpen, setShopCartOpen] = useState(false);  
+  const [isShopCartOpen, setShopCartOpen] = useState(false);
   const [isJumping, setJumping] = useState(false);
   const [isGameStarted, setGameStarted] = useState(false);
   const [cart, setCart] = useState([]);
@@ -31,12 +31,12 @@ function App() {
   };
 
   const closeShopCart = () => {
-    setShopCartOpen(false); 
+    setShopCartOpen(false);
   };
   const handleJump = () => {
     if (!isJumping) {
       setJumping(true);
-      setTimeout(() => setJumping(false), 500); // Tempo di salto
+      setTimeout(() => setJumping(false), 500);
     }
   };
 
@@ -61,11 +61,14 @@ function App() {
 
   return (
     <>
-      <Navbar openLoginModal={openLoginModal} OpenShopCart={OpenShopCart} />
-      <Button onStartGame={startGame}/>
-      <Body addToCart={addToCart}/>
-      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
-      <ShopCart isOpen={isShopCartOpen} onClose={closeShopCart}/>
+    <CartProvider>
+        <Navbar openLoginModal={openLoginModal} OpenShopCart={OpenShopCart} />
+        <Button onStartGame={startGame} />
+        <Body addToCart={addToCart} />
+        <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
+        <ShopCart isOpen={isShopCartOpen} onClose={closeShopCart} />
+    </CartProvider>
+
     </>
   );
 }
