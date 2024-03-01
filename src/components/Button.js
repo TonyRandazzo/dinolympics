@@ -1,17 +1,17 @@
 import React from 'react'
 import Player from './Player'
 
-function Button() {
+function Button({selectedSprite}) {
   return (
     <>
         <div className='title'>
             <h1>DINOLYMPICS</h1>
         </div>
         <div className='preview'>
-          <Player/>
+          <Player selectedSprite={selectedSprite}/>
         </div>
         <div className='button'>
-          <input id="startGame" type="button" value="Start"></input>
+          <input className="startGame" type="button" value="Start"></input>
         </div>
     </>
   )

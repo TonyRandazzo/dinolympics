@@ -12,7 +12,7 @@ function Navbar({ openLoginModal, OpenShopCart }) {
             </a>
           </li>
           <li>
-            <a href="#" onClick={openLoginModal}>
+            <a href="#" onClick={openLoginModal} className='login'>
               Login
             </a>
           </li>

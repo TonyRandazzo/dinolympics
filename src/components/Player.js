@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Player = ({ jump }) => {
+const Player = ({ jump, selectedSprite}) => {
   const [position, setPosition] = useState(0);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const Player = ({ jump }) => {
 
   return (
     <div style={{ marginTop: `${position * 100}px` }}>
-      <div className="sprite blue" onClick={jump}></div>
+      <div className={`sprite ${selectedSprite}`} onClick={jump}></div>
     </div>
   );
 }

@@ -101,7 +101,7 @@ nav ul {
   align-items: center;
   margin-bottom: 50px;
 }
-#startGame {
+.startGame {
   font-weight: bold;
   border: 2px solid white;
   border-radius: 25px;
@@ -111,6 +111,14 @@ nav ul {
   font-size: 20px;
   cursor: pointer;
   margin-bottom: 20px;
+  transition: 0.4s ease-in-out;
+}
+.startGame:hover {
+  color: #FDC830;
+  background-color: white;
+  border-radius: 200px;
+  padding: 20px 40px;
+  transform: scale(1.1,1.1);
 }
 .shop{
   display: flex;
@@ -176,10 +184,11 @@ nav ul {
   border: none;
   border-radius: 15px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: 0.3s ease;
 }
 .card button:hover{
   background-color: gold;
+  transform: scale(1.1,1.1);
 }
 
 .card img {
@@ -204,7 +213,7 @@ nav ul {
 .mission-container {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 50%;
   margin: auto;
 }
 
@@ -214,18 +223,29 @@ nav ul {
   display: flex;
   flex-wrap: wrap;
 }
-.mission-header{
+.mission-header {
+  background: url("./components/Immagini/UI Pixels/header.png") no-repeat;
+  image-rendering: pixelated;
+  background-size: 100% 100%;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: gold;
   flex: 1;
-  padding: 10px;
+  padding: 20px;
+  height: 100%;
 }
 .mission-cell {
-  background: white;
+  background: url("./components/Immagini/UI Pixels/table.png") no-repeat;
+  image-rendering: pixelated;
+  background-size: 100% 100%;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
-  padding: 10px;
+  padding: 20px;
+  height: 100%;
   border: 1px solid lightgray;
 }
 h2{
@@ -308,9 +328,18 @@ form {
 .cart{
   height: 35px;
   width: 54px;
+  transition: 0.2s ease-in;
+}
+.cart:hover{
+  transform: scale(1.2,1.2);
+}
+.login{
+  transition: 0.2s ease-in;
 }
 
-
+.login:hover{
+  font-size: 20px;
+}
 
 .rankings{
   display: flex;
@@ -512,4 +541,151 @@ form {
   font-size: 20px;
   color: black;
   text-decoration: none;
+}
+
+
+@media only screen and (min-width: 320px) {
+  .sprite{
+    transform: scale(3,3);
+  }
+  .navbar ul {
+    margin-right: 10px;
+  }
+
+  .navbar ul li {
+    margin-left: 10px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .button {
+    margin-bottom: 30px;
+  }
+
+  #startGame {
+    padding: 15px 40px;
+    font-size: 16px;
+  }
+
+  .shop {
+    padding: 15px;
+  }
+
+  .card ul li {
+    width: 100%;
+    height: auto;
+  }
+
+  .card img {
+    height: 80px;
+    width: 80px;
+  }
+
+  .corpo {
+    height: auto;
+  }
+  .big-sprite{
+    transform: scale(6,6);
+  }
+
+  .big-sprite-container {
+    padding: 50px;
+  }
+}
+@media only screen and (min-width: 768px) {
+
+  .navbar ul {
+    margin-right: 20px;
+  }
+
+  .navbar ul li {
+    margin-left: 20px;
+  }
+
+  .title {
+    font-size: 35px;
+  }
+
+  .button {
+    margin-bottom: 40px;
+  }
+
+  #startGame {
+    padding: 18px 60px;
+    font-size: 18px;
+  }
+
+  .shop {
+    padding: 20px;
+  }
+
+  .card ul li {
+    width: 150px;
+    height: 250px;
+  }
+
+  .card img {
+    height: 100px;
+    width: 100px;
+  }
+
+  .corpo {
+    height: auto;
+  }
+  .big-sprite{
+    transform: scale(7,7);
+  }
+
+  .big-sprite-container {
+    padding: 70px;
+  }
+}
+
+
+@media only screen and (min-width: 1200px) {
+
+  .navbar ul {
+    margin-right: 30px;
+  }
+
+  .navbar ul li {
+    margin-left: 30px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .button {
+    margin-bottom: 50px;
+  }
+
+  #startGame {
+    padding: 20px 80px;
+    font-size: 20px;
+  }
+
+  .shop {
+    padding: 30px;
+  }
+
+  .card ul li {
+    width: 200px;
+    height: 310px;
+  }
+
+  .card img {
+    height: 120px;
+    width: 120px;
+  }
+
+  .corpo {
+    height: auto;
+  }
+
+  .big-sprite-container {
+    padding: 90px;
+  }
 }

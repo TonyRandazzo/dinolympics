@@ -12,6 +12,7 @@ function App() {
   const [isJumping, setJumping] = useState(false);
   const [isGameStarted, setGameStarted] = useState(false);
   const [cart, setCart] = useState([]);
+  const [selectedSprite, setSelectedSprite] = useState('blue');
 
   const addToCart = (product, quantity) => {
     console.log("Adding to cart:", product, quantity);
@@ -63,8 +64,8 @@ function App() {
     <>
     <CartProvider>
         <Navbar openLoginModal={openLoginModal} OpenShopCart={OpenShopCart} />
-        <Button onStartGame={startGame} />
-        <Body addToCart={addToCart} />
+        <Button onStartGame={startGame} selectedSprite={selectedSprite} />
+        <Body addToCart={addToCart} selectedSprite={selectedSprite} setSelectedSprite={setSelectedSprite} />
         <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
         <ShopCart isOpen={isShopCartOpen} onClose={closeShopCart} />
     </CartProvider>
