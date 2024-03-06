@@ -26,7 +26,7 @@ const Elements = () => {
                     <ul>
                         {products.map((product) => (
                             <li key={product.name}>
-                                <img src = {product.img}></img>
+                                <div className='prodotto' style={{ backgroundImage: `url(${product.img})` }}></div>
                                 <h3>{product.name}</h3>
                                 <p>{product.description}</p>
                                 <h3>Price: ${product.price}</h3>

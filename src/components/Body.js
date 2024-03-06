@@ -11,7 +11,11 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
     <div className='corpo'>
       <nav>
         <ul className='lista'>
-          <li> <h2>Skin</h2>
+          <li > 
+            <div style={{display: 'flex'}}>
+              <h2>Skin</h2>
+              <p className='guide'>You can choose your favourite character right here.</p>
+            </div>
             <div className='customize'>
               <div className='big-sprite-container'>
                 <div className={`big-sprite sprite ${selectedSprite}`} />
@@ -22,7 +26,8 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
               <div className={`sprite green skin ${selectedSprite === 'green' ? 'selected' : ''}`} onClick={() => handleSpriteClick('green')} />
             </div>
           </li>
-          <li><h2>Records</h2>
+          <li>
+          <div style={{display: 'flex'}}><h2>Records</h2><p className='guide'>Here there are your best records of each game you've played</p></div>
             <div className='records'>
               <div className="mission-container">
                 <div className="mission-row">
@@ -45,7 +50,7 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
             </div>
           </li>
           <li>
-            <h2>Missioni</h2>
+            <div style={{display: 'flex'}}><h2>Missioni</h2><p className='guide'>These are the missions available. Complete all the missions. This percentage is the percentage of missions that you've completed</p></div>
             <div className="progress-bar-container">
               <div className="progress-bars-container">
                 <div className="progress-bar Missions">
@@ -72,7 +77,7 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
               </div>
             </div>
           </li>
-          <li><h2>Rankings</h2>
+          <li><div style={{display: 'flex'}}><h2>Rankings</h2> <p className='guide'>This is the ledderboard of the highest points you had accomplished</p></div>
             <div className='rankings'>
               <div className='second'>
                 <div className='face top'></div>
@@ -92,7 +97,7 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
             </div>
 
           </li>
-          <h2>Shop</h2>
+          <div style={{display: 'flex'}}><h2>Shop</h2><p className='guide'>In this shop you can buy themes for the game</p></div>
           <Elements addToCart={addToCart} />
         </ul>
       </nav>
