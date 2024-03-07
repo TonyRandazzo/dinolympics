@@ -3,12 +3,17 @@ import Modal from 'react-modal';
 import { useCart } from './CartContext';
 
 const ShopCart = ({ isOpen, onClose }) => {
-  const { cart } = useCart();
+  const { cart, removeFromCart } = useCart();
+
   const calculateTotal = () => {
     if (cart && cart.length > 0) {
       return cart.reduce((total, item) => total + item.price, 0);
     }
     return 0;
+  };
+
+  const handleRemoveItem = (index) => {
+    removeFromCart(index);
   };
 
   return (
@@ -32,6 +37,9 @@ const ShopCart = ({ isOpen, onClose }) => {
                 <div className='mini-prodotto' style={{ backgroundImage: `url(${item.img})` }}></div>
                 <p>{item.name}</p>
                 <p>Price: ${item.price}</p>
+                <button onClick={() => handleRemoveItem(index)}>
+                &times;
+                </button>
               </li>
             ))}
           </ul>
