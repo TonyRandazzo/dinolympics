@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { useCart } from './CartContext';
 
 const ShopCart = ({ isOpen, onClose }) => {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, completePurchase  } = useCart();
 
   const calculateTotal = () => {
     if (cart && cart.length > 0) {
@@ -15,6 +15,25 @@ const ShopCart = ({ isOpen, onClose }) => {
   const handleRemoveItem = (index) => {
     removeFromCart(index);
   };
+
+  const handleCheckout = async () => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/skins`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cart }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Errore durante il checkout');
+        }
+        completePurchase(); 
+    } catch (error) {
+        console.error('Errore durante il checkout:', error.message);
+    }
+};
 
   return (
     <Modal
@@ -34,11 +53,11 @@ const ShopCart = ({ isOpen, onClose }) => {
           <ul>
             {cart.map((item, index) => (
               <li key={index}>
-                <div className='mini-prodotto' style={{ backgroundImage: `url(${item.img})` }}></div>
+                <div className={`mini-prodotto ${item.img}`} style={{imageRendering: 'pixelated',   animation: 'play-sprite 0.7s steps(1) infinite', backgroundColor: 'white'}}></div>
                 <p>{item.name}</p>
                 <p>Price: ${item.price}</p>
                 <button onClick={() => handleRemoveItem(index)}>
-                &times;
+                  &times;
                 </button>
               </li>
             ))}
@@ -46,10 +65,13 @@ const ShopCart = ({ isOpen, onClose }) => {
         ) : (
           <p>Your cart is empty.</p>
         )}
-
       </div>
 
       <p>Total: ${calculateTotal()}</p>
+
+      {cart && cart.length > 0 && (
+        <button className='checkout' onClick={handleCheckout}>Checkout</button>
+      )}
     </Modal>
   );
 };

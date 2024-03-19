@@ -5,7 +5,6 @@ function Navbar({ openLoginModal, OpenShopCart }) {
   return (
     <div className='navbar'>
       <nav>
-      <a onClick={openLoginModal} style={{color:'white'}}>Settings</a>
         <ul>
           <li>
             <a onClick={OpenShopCart}>

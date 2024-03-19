@@ -6,15 +6,29 @@ const LoginModal = ({ isOpen, onClose }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [isLoginMode, setIsLoginMode] = useState(true);
 
-  const onSubmit = (data) => {
-    console.log(`${isLoginMode ? 'Logging in with:' : 'Registering with:'}`, data);
-    onClose();
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        console.log(`${isLoginMode ? 'Logging in with:' : 'Registering with:'}`, data);
+        onClose();
+      } else {
+        const errorData = await response.json();
+        console.error('Registration failed:', errorData);
+      }
+    } catch (error) {
+      console.error('Registration failed:', error);
+    }
   };
 
   const toggleMode = () => {
-    if ((isLoginMode && document.activeElement.value !== 'Login') || (!isLoginMode && document.activeElement.value !== 'Register')) {
-      setIsLoginMode(!isLoginMode);
-    }
+    setIsLoginMode(!isLoginMode);
   };
 
   return (

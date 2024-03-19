@@ -4,6 +4,7 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [purchasedItems, setPurchasedItems] = useState([]);
 
   const addToCart = (product, quantity) => {
     if (!cart.find(el => el.name === product.name)) {
@@ -17,8 +18,13 @@ export const CartProvider = ({ children }) => {
     setCart(updatedCart);
   };
 
+  const completePurchase = () => {
+    setPurchasedItems([...purchasedItems, ...cart]);
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, purchasedItems, completePurchase }}>
       {children}
     </CartContext.Provider>
   );

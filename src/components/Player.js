@@ -1,18 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const Player = ({ jump, selectedSprite}) => {
-  const [position, setPosition] = useState(0);
-
-  useEffect(() => {
-    if (jump) {
-      setPosition(1); 
-      setTimeout(() => setPosition(0), 500);
-    }
-  }, [jump]);
-
+const Player = ({ selectedSprite }) => {
   return (
-    <div style={{ marginTop: `${position * 100}px` }}>
-      <div className={`sprite ${selectedSprite}`} onClick={jump}></div>
+    <div>
+      <div className={`sprite ${selectedSprite}`}></div>
     </div>
   );
 }
