@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Player from './Player';
 
-function Button({ selectedSprite }) {
+function StartScreen({ selectedSprite }) {
   return (
     <>
-      <div className='title'>
-        <h1>DINOLYMPICS</h1>
+      <div className='title flex flex-col'>
+        <h1 className='max-sm:text-5xl'>DINOLYMPICS</h1>
       </div>
       <div className='preview'>
         <Player selectedSprite={selectedSprite} />
@@ -20,4 +20,4 @@ function Button({ selectedSprite }) {
   );
 }
 
-export default Button;
+export default StartScreen;

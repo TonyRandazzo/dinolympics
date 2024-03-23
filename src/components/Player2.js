@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSprite } from './SpriteContext';
 
-const Player2 = ({ reference }) => {
-  const { selectedSprite } = useSprite();
+
+const Player2 = ({ reference, selectedSprite }) => {
+
   const playerStyle = {
     position: 'absolute',
     bottom: '0',

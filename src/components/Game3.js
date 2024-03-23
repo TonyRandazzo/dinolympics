@@ -4,7 +4,7 @@ import Player3 from './Player3';
 const rows = 5;
 const cols = 5;
 
-const Game3 = () => {
+const Game3 = ({selectedSprite, setSelectedSprite}) => {
   const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 0 });
   const [blackCell, setBlackCell] = useState({ x: -1, y: -1 });
   const [timeLeft, setTimeLeft] = useState(10);
@@ -37,7 +37,28 @@ const Game3 = () => {
       window.location.reload();
     }
   }, [timeLeft]);
-
+  useEffect(() => {
+    const sendPointsToBackend = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/points`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ game: 'Mad Hunting', points: points }), 
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to save game points');
+        }
+    
+        console.log('Game points saved successfully');
+      } catch (error) {
+        console.error('Error saving game points:', error.message);
+      }
+    };
+    sendPointsToBackend();
+  }, [points]); 
   useEffect(() => {
     const handleKeyPress = (event) => {
       let newPlayerPosition = { ...playerPosition };
@@ -75,7 +96,7 @@ const Game3 = () => {
           break;
       }
       if (newPlayerPosition.x === blackCell.x && newPlayerPosition.y === blackCell.y) {
-        window.location.reload(); // Reload the page if player is on black cell
+        window.location.reload(); 
       } else {
         setPlayerPosition(newPlayerPosition);
       }
@@ -90,7 +111,7 @@ const Game3 = () => {
 
   useEffect(() => {
     const pointsTimer = setInterval(() => {
-      setPoints((prevPoints) => prevPoints + 1);
+      setPoints((prevPoints) => prevPoints + 50);
     }, 1000);
 
     return () => {
@@ -131,17 +152,19 @@ const Game3 = () => {
     }
 
     if (newPlayerPosition.x === blackCell.x && newPlayerPosition.y === blackCell.y) {
-      window.location.reload(); // Reload the page if player is on black cell
+      window.location.reload();
     } else {
       setPlayerPosition(newPlayerPosition);
     }
   };
-
+  const handleReturnHome = () => {
+    window.location.href = '/';
+  };
   return (
     <div className="game-container" style={{ display: 'flex' }}>
       <div style={{ flex: 1 }}>
         <header className="header">
-          <h1>Game Title</h1>
+          <h1>Mad Hunting</h1>
           <div>Punteggio: {points}</div>
           <div>Tempo rimanente: {timeLeft} secondi</div>
           <div className="buttons">
@@ -149,6 +172,7 @@ const Game3 = () => {
             <button onClick={() => handleMove('Skey')}>down</button>
             <button onClick={() => handleMove('Akey')}>left</button>
             <button onClick={() => handleMove('Dkey')}>right</button>
+            <button style={{borderRadius: '10px'}}onClick={handleReturnHome}>Exit</button>
           </div>
         </header>
       </div>
@@ -168,7 +192,7 @@ const Game3 = () => {
             ))}
           </div>
         ))}
-        <Player3 position={playerPosition} style={{ position: 'relative' }} />
+        <Player3 selectedSprite={selectedSprite} setSelectedSprite={setSelectedSprite} position={playerPosition} style={{ position: 'relative' }} />
       </div>
     </div>
   );

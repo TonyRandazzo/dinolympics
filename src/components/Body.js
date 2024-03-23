@@ -5,24 +5,24 @@ import { useCart } from './CartContext';
 function Body({ addToCart, selectedSprite, setSelectedSprite }) {
   const { purchasedItems } = useCart(); 
   const [missions, setMissions] = useState([]);
-  const [games, setGames] = useState([]);
+  const [maxPoints, setMaxPoints] = useState([]);
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_BACKEND_URL)
-    const fetchMissionsAndGames = async () => {
+    const fetchMissionsAndMaxPoints = async () => {
       try {
         const missionsResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/missions`);
         const missionsData = await missionsResponse.json();
         setMissions(missionsData.data);
-        const gamesResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/records`);
-        const gamesData = await gamesResponse.json();
-        setGames(gamesData.data);
+
+        const maxPointsResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/max-points`);
+        const maxPointsData = await maxPointsResponse.json();
+        setMaxPoints(maxPointsData.data);
       } catch (error) {
         console.error('Errore durante la richiesta API:', error);
       }
     };
 
-    fetchMissionsAndGames();
+    fetchMissionsAndMaxPoints();
   }, []); 
 
   const handleSpriteClick = (spriteColor) => {
@@ -40,18 +40,18 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
         <ul className='lista'>
           <li>
             <div style={{ display: 'flex' }}>
-              <h2>Skin</h2>
+              <h2 className='max-lg:text-xs max-md:hidden'>Skin</h2>
               <p className='guide'>You can choose your favourite character right here.</p>
             </div>
-            <div className='customize max-lg:scale-70'>
-              <div className='big-sprite-container max-lg:scale-20'>
+            <div className='customize'>
+              <div className='big-sprite-container max-md:hidden'>
                 <div className={`big-sprite sprite ${selectedSprite}`} />
               </div>
                 <div className={`sprite blue skin ${selectedSprite === 'blue' ? 'selected' : ''}`} onClick={() => handleSpriteClick('blue')} />
               {isSpritePurchased('red') && (
                 <div className={`sprite red skin ${selectedSprite === 'red' ? 'selected' : ''}`} onClick={() => handleSpriteClick('red')} />
               )}
-              {isSpritePurchased('yellow') && (
+              {isSpritePurchased('gold') && (
                 <div className={`sprite yellow skin ${selectedSprite === 'yellow' ? 'selected' : ''}`} onClick={() => handleSpriteClick('yellow')} />
               )}
               {isSpritePurchased('green') && (
@@ -61,7 +61,7 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
           </li>
           <li>
             <div style={{ display: 'flex' }}>
-              <h2>Records</h2>
+              <h2 className='max-lg:text-xs'>Records</h2>
               <p className='guide'>Here there are your best records of each game you've played</p>
             </div>
             <div className='records'>
@@ -70,26 +70,26 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
                   <div className="mission-header"><h3>MiniGames</h3></div>
                   <div className="mission-header"><h3>Best Records</h3></div>
                 </div>
-                {games.length > 0 ? (
-                  games.map(record => (
-                    <div className="mission-row" key={record.id}>
-                      <div className="mission-cell">{record.game_name}</div>
-                      <div className="mission-cell">{record.points}</div>
+                {maxPoints.length > 0 ? (
+                  maxPoints.map(point => (
+                    <div className="mission-row" key={point.id}>
+                      <div className="mission-cell max-lg:text-xs">{point.game}</div>
+                      <div className="mission-cell max-lg:text-xs">{point.max_points}</div>
                     </div>
                   ))
                 ) : (
                   <>
                     <div className="mission-row">
-                      <div className="mission-cell">-</div>
-                      <div className="mission-cell">-</div>
+                      <div className="mission-cell max-lg:text-sm">-</div>
+                      <div className="mission-cell max-lg:text-sm">-</div>
                     </div>
                     <div className="mission-row">
-                      <div className="mission-cell">-</div>
-                      <div className="mission-cell">-</div>
+                      <div className="mission-cell max-lg:text-sm">-</div>
+                      <div className="mission-cell max-lg:text-sm">-</div>
                     </div>
                     <div className="mission-row">
-                      <div className="mission-cell">-</div>
-                      <div className="mission-cell">-</div>
+                      <div className="mission-cell max-lg:text-sm">-</div>
+                      <div className="mission-cell max-lg:text-sm">-</div>
                     </div>
                   </>
                 )}
@@ -99,40 +99,32 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
 
           <li>
             <div style={{ display: 'flex' }}>
-              <h2>Missioni</h2>
-              <p className='guide'>This is the percentage of missions that you've completed</p>
+              <h2 className='max-lg:text-xs'>Missions</h2>
+              <p className='guide'>These are the missions that you have to complete.</p>
             </div>
             <div className="mission-container">
               <div className="mission-row">
-                <div className="mission-header"><h3>Missioni</h3></div>
-                <div className="mission-header"><h3>Descrizione</h3></div>
+                <div className="mission-header"><h3>Missions</h3></div>
+                <div className="mission-header"><h3>Descriptions</h3></div>
               </div>
               {missions.length > 0 ? (
                 missions.map(mission => (
                   <div className="mission-row" key={mission.id}>
-                    <div className="mission-cell">{mission.name}</div>
-                    <div className="mission-cell">{mission.description}</div>
+                    <div className="mission-cell max-lg:text-xs">{mission.name}</div>
+                    <div className="mission-cell max-lg:text-xs">{mission.description}</div>
                   </div>
                 ))
               ) : (
                 <>
-                  <div className="mission-row">
-                    <div className="mission-cell">-</div>
-                    <div className="mission-cell">-</div>
-                  </div>
-                  <div className="mission-row">
-                    <div className="mission-cell">-</div>
-                    <div className="mission-cell">-</div>
-                  </div>
-                  <div className="mission-row">
-                    <div className="mission-cell">-</div>
-                    <div className="mission-cell">-</div>
-                  </div>
-                </>
+                <div className="mission-row">
+                  <div className="mission-cell max-lg:text-sm">No missions available</div>
+                  <div className="mission-cell max-lg:text-sm">-</div>
+                </div>
+              </>
               )}
             </div>
           </li>
-          <li><div style={{display: 'flex'}}><h2>Rankings</h2> <p className='guide'>This is the ledderboard of the highest points you had accomplished</p></div>
+          {/* <li><div style={{display: 'flex'}}><h2 className='max-lg:text-xs max-md:hidden'>Rankings</h2> <p className='guide'>This is the ledderboard of the highest points you had accomplished</p></div>
             <div className='rankings'>
               <div className='second'>
                 <div className='face top'></div>
@@ -151,8 +143,8 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
               </div>
             </div>
 
-          </li>
-          <div style={{display: 'flex'}}><h2>Shop</h2><p className='guide'>In this shop you can buy skins for the game</p></div>
+          </li> */}
+          <div style={{display: 'flex'}}><h2 className='max-lg:text-xs'>Shop</h2><p className='guide'>In this shop you can unlock skins if you have at least 500 points</p></div>
           <Elements addToCart={addToCart} />
         </ul>
       </nav>

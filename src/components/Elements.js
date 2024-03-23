@@ -5,9 +5,9 @@ const Elements = () => {
     const { addToCart, purchasedItems } = useCart(); 
     const { cart } = useCart(); 
     const products = [
-        { name: 'Yellow DIno', description: 'Descrizione del prodotto 1.', price: 5, img: 'yellow', available: true },
-        { name: 'Green Dino', description: 'Descrizione del prodotto 2', price: 5, img: 'green', available: true },
-        { name: 'Red Dino', description: 'Descrizione del prodotto 3', price: 5, img: 'red', available: true },
+        { name: 'Gold Dino', description: "He's yellow and loves to play.", price: 5, img: 'yellow', available: true },
+        { name: 'Green Dino', description: "He's green and sleepy.", price: 5, img: 'green', available: true },
+        { name: 'Red Dino', description: "He's red and very competitive", price: 5, img: 'red', available: true },
     ];
     const [quantities, setQuantities] = useState({});
 
@@ -27,9 +27,9 @@ const Elements = () => {
     }
 
     return (
-        <div className='shop'>
-            <div className='card'>
-                <ul>
+        <div className='shop max-md:flex-col'>
+            <div className='card max-lg:w-1/2 h-1/2 text-sm max-md:flex-col'>
+                <ul className='max-md:flex-col'>
                     {products.map((product) => (
                         <li key={product.name}>
                             <div className={`prodotto ${product.img}`} style={{ imageRendering: 'pixelated', animation: 'play-sprite 0.7s steps(1) infinite', backgroundColor: 'white' }}></div>

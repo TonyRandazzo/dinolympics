@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { SpriteProvider } from './SpriteContext';
-import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
+import { Outlet, Router, useNavigate } from 'react-router-dom';
 
 const GameWrapper = () => {
     const navigate = useNavigate();
@@ -11,9 +10,9 @@ const GameWrapper = () => {
     }, []);
 
     return (
-        <SpriteProvider>
+        <>
             <Outlet/>
-        </SpriteProvider>
+        </>
     );
 };
 

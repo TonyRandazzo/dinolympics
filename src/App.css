@@ -7,6 +7,17 @@ body {
 a{
   cursor: pointer;
 }
+
+
+.buttons button{
+  padding: 10px;
+  border: 3px solid #000;
+  width: 50%;
+  border-radius: 30px;
+}
+.buttons button:hover{
+  background-color: white;
+}
 .preview{
   display: flex;
   justify-content: center;
@@ -53,10 +64,10 @@ a{
   margin-right: 5px;
   font-weight: bold;
   border: 2px solid gold;
-  border-radius: 25px;
+  border-radius: 500px;
   background-color: transparent;
   color: gold;
-  padding: 2px 5px;
+  padding: 0px 5px;
   font-size: 10px;
   cursor: pointer;
   transition: 0.4s ease-in-out;
@@ -73,6 +84,7 @@ a{
   border-radius: 50px;
   background: rgba(255, 255, 255, 0.7);
 }
+
 .navbar {
   position: fixed;
   top: 0;  
@@ -322,7 +334,7 @@ nav ul {
 .mission-container {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 60%;
   margin: auto;
 }
 
@@ -393,6 +405,7 @@ h2:hover + .guide {
 .skin{
   display: flex;
   margin: 50px;
+  padding: 11px;
   border: 2px solid black;
   border-radius: 5px;
   background-color:rgba(245, 222, 179, 0.7);
@@ -626,10 +639,10 @@ form {
   }
 .ReactModalContent {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 700px;
+  width: 500px;
   padding: 10px;
   background: linear-gradient(45deg, orange, gold);
   border-radius: 30px;
@@ -682,3 +695,68 @@ form {
   height: 27px; 
 }
 
+@media screen and (max-width: 640px) {
+  .game-container {
+    flex-direction: column;
+  }
+
+  .maze-container {
+    width: 100%;
+    order: 2; /* Cambia l'ordine in cui appare nel layout */
+  }
+
+  .header {
+    width: 100%;
+    text-align: center;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .buttons button {
+    margin: 5px;
+    font-size: 14px;
+  }
+
+  .sprite {
+    transform: scale(2, 2); 
+  }
+  .mission-container {
+    width: 100%;
+  }
+
+  .mission-header,
+  .mission-cell {
+    font-size: 6px;
+    padding: 10px;
+  }
+
+  .guide {
+    display: none;
+  }
+
+  h2 {
+    width: 100%;
+  }
+  .rankings{
+    border: none;
+    background: transparent;
+    transform: scale(0.5,0.5);
+  }
+
+  .card{
+    transform: scale(0.7, 0.7);
+  }
+
+  .corpo nav ul li {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .lista{
+    width: 70%;
+  }
+}

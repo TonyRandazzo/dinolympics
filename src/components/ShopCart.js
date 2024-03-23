@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { useCart } from './CartContext';
 
 const ShopCart = ({ isOpen, onClose }) => {
-  const { cart, removeFromCart, completePurchase  } = useCart();
-
-  const calculateTotal = () => {
-    if (cart && cart.length > 0) {
-      return cart.reduce((total, item) => total + item.price, 0);
-    }
-    return 0;
-  };
+  const { cart, removeFromCart, completePurchase } = useCart();
+  const [shopperRecordDeleted, setShopperRecordDeleted] = useState(false);
+  const [deleteError, setDeleteError] = useState(null); 
 
   const handleRemoveItem = (index) => {
     removeFromCart(index);
@@ -18,22 +13,47 @@ const ShopCart = ({ isOpen, onClose }) => {
 
   const handleCheckout = async () => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/skins`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ cart }),
-        });
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/skins`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cart }),
+      });
 
-        if (!response.ok) {
-            throw new Error('Errore durante il checkout');
+      if (!response.ok) {
+        throw new Error('Errore durante il checkout');
+      }
+
+
+      if (!shopperRecordDeleted && !deleteError) {
+        try {
+          const deleteResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/missions/shopper`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ shopper_id: 1 }),
+          });
+
+          if (!deleteResponse.ok && deleteResponse.status !== 404) {
+            throw new Error('Errore durante l\'eliminazione del record del shopper');
+          }
+
+          setShopperRecordDeleted(deleteResponse.ok);
+        } catch (error) {
+          if (error.response && error.response.status !== 404) {
+            throw error;
+          }
+          setDeleteError(error);
         }
-        completePurchase(); 
+      }
+
+      completePurchase();
     } catch (error) {
-        console.error('Errore durante il checkout:', error.message);
+      console.error('Errore durante il checkout:', error.message);
     }
-};
+  };
 
   return (
     <Modal
@@ -55,7 +75,7 @@ const ShopCart = ({ isOpen, onClose }) => {
               <li key={index}>
                 <div className={`mini-prodotto ${item.img}`} style={{imageRendering: 'pixelated',   animation: 'play-sprite 0.7s steps(1) infinite', backgroundColor: 'white'}}></div>
                 <p>{item.name}</p>
-                <p>Price: ${item.price}</p>
+                <p>Price: {item.price} points</p>
                 <button onClick={() => handleRemoveItem(index)}>
                   &times;
                 </button>
@@ -66,8 +86,6 @@ const ShopCart = ({ isOpen, onClose }) => {
           <p>Your cart is empty.</p>
         )}
       </div>
-
-      <p>Total: ${calculateTotal()}</p>
 
       {cart && cart.length > 0 && (
         <button className='checkout' onClick={handleCheckout}>Checkout</button>

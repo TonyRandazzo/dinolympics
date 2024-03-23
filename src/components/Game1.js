@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Player1 from './Player1';
+import { usePoints } from './PointContext';
 
 const rows = 10;
 const cols = 10;
 
-const Game1 = () => {
+const Game1 = ({selectedSprite, setSelectedSprite}) => {
   const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 0 });
   const [maze, setMaze] = useState([]);
   const [dots, setDots] = useState([]);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(15); // Tempo iniziale in secondi
-  
+  const { game1Points, updateGamePoints } = usePoints();
 
   useEffect(() => {
     const generateMaze = () => {
@@ -63,7 +64,8 @@ const Game1 = () => {
   const handleMove = (direction) => {
     let newPlayerPosition = { ...playerPosition };
     let newDots = [...dots];
-
+    let newScore = score;
+  
     switch (direction) {
       case 'Wkey':
       case 'ArrowUp':
@@ -92,17 +94,20 @@ const Game1 = () => {
       default:
         break;
     }
-
-
+  
     const dotIndex = newDots.findIndex(dot => dot.x === newPlayerPosition.x && dot.y === newPlayerPosition.y);
     if (dotIndex !== -1) {
-      setScore(score + 1);
+      newScore += 100;
       newDots.splice(dotIndex, 1);
     }
-
+  
     setPlayerPosition(newPlayerPosition);
     setDots(newDots);
+    setScore(newScore);
+  
+    updateGamePoints('game1', newScore);
   };
+  
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -141,6 +146,34 @@ const Game1 = () => {
     };
   });
 
+  useEffect(() => {
+const sendPointsToBackend = async () => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/points`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ game: 'Crazy Maze', points: score }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to save game points');
+    }
+
+    console.log('Game points saved successfully');
+  } catch (error) {
+    console.error('Error saving game points:', error.message);
+  }
+};
+
+    sendPointsToBackend();
+  }, [score]); 
+
+  const handleReturnHome = () => {
+    window.location.href = '/';
+  };
+
   return (
     <div className="game-container" style={{ display: 'flex' }}>
       <div className="maze-container" style={{ flex: 1 }}>
@@ -177,19 +210,20 @@ const Game1 = () => {
             ))
           )}
         </div>
-        <Player1 position={playerPosition} style={{ position: 'relative' }} />
+        <Player1 selectedSprite={selectedSprite} setSelectedSprite={setSelectedSprite} position={playerPosition} style={{ position: 'relative' }} />
       </div>
       <div style={{ flex: 1 }}>
         <header className="header">
-          <h1>Game Title</h1>
-          <div>Punteggio: {score}</div>
-          <div>Tempo rimanente: {timeLeft} secondi</div>
+          <h1>Crazy Maze (collect the red dots)</h1>
+          <div>Points: {score}</div>
+          <div>Timer: {timeLeft} seconds</div>
         </header>
         <div className="buttons">
           <button onClick={() => handleMove('Wkey')}>up</button>
           <button onClick={() => handleMove('Skey')}>down</button>
           <button onClick={() => handleMove('Akey')}>left</button>
           <button onClick={() => handleMove('Dkey')}>right</button>
+          <button style={{borderRadius: '10px'}}onClick={handleReturnHome}>Exit</button>
         </div>
       </div>
     </div>

@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Player2 from './Player2';
 import Obstacle from './Obstacle';
+import { usePoints } from './PointContext'; 
 
-const Game2 = () => {
+const Game2 = ({selectedSprite, setSelectedSprite}) => {
   const [isJumping, setIsJumping] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const dinoRef = useRef(null);
   const obstacleRef = useRef(null);
   const gameAreaRef = useRef(null);
-  const [timer, setTimer] = useState(10); // Timer di 10 secondi
-  const [score, setScore] = useState(0); // Punteggio
-  
+  const [timer, setTimer] = useState(10); 
+  const [score, setScore] = useState(0); 
+  const { game2Points, updateGamePoints } = usePoints(); 
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -50,18 +51,18 @@ const Game2 = () => {
   useEffect(() => {
     const moveObstacle = () => {
       const obstacle = obstacleRef.current;
-
+    
       if (obstacle) {
         const moveInterval = setInterval(() => {
           const currentPosition = parseInt(window.getComputedStyle(obstacle).getPropertyValue('left'));
-
+    
           if (currentPosition > -20) {
             obstacle.style.left = `${currentPosition - 3}px`;
           } else {
-            obstacle.style.left = '600px';
+            obstacle.style.left = '100%'; // Modifica: Posiziona l'ostacolo alla fine dell'area di gioco
           }
         }, 10);
-
+    
         return () => clearInterval(moveInterval);
       }
     };
@@ -80,9 +81,11 @@ const Game2 = () => {
   }, [isGameOver]);
 
   useEffect(() => {
+    let newScore = score;
     const countdown = setInterval(() => {
       setTimer((prevTimer) => prevTimer - 1);
-      setScore((prevScore) => prevScore + 1); // Aggiungo un punto ad ogni decremento del timer
+      setScore((prevScore) => prevScore + 100); 
+      updateGamePoints('game2', newScore);
     }, 1000);
 
     if (timer === 0) {
@@ -92,6 +95,30 @@ const Game2 = () => {
 
     return () => clearInterval(countdown);
   }, [timer]);
+
+  useEffect(() => {
+    const sendPointsToBackend = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/points`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ game: 'Feverish Run', points: score }), 
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to save game points');
+        }
+    
+        console.log('Game points saved successfully');
+      } catch (error) {
+        console.error('Error saving game points:', error.message);
+      }
+    };
+
+    sendPointsToBackend();
+  }, [score]); 
 
   const jump = () => {
     let count = 0;
@@ -118,29 +145,49 @@ const Game2 = () => {
     }, 20);
   };
 
+  const handleJumpButtonClick = () => {
+    if (!isJumping && !isGameOver) {
+      setIsJumping(true);
+      jump();
+    }
+  };
+  
+  const handleReturnHome = () => {
+    window.location.href = '/';
+  };
+
   return (
-    <div>
-      <h1>Feverish run</h1>
+    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+      <h1>Feverish run (Jump!)</h1>
       <div
         ref={gameAreaRef}
         style={{
           position: 'relative',
-          width: '600px',
-          height: '200px',
+          width: '100%',
+          paddingBottom: '50%',
           border: 'solid 5px black',
           borderRadius: '25px',
           backgroundColor: 'white',
-          margin: '0 auto',
+          overflow: 'hidden',
         }}
       >
-        {!isGameOver && <Player2 reference={dinoRef} />}
+        {!isGameOver && <Player2 selectedSprite={selectedSprite} setSelectedSprite={setSelectedSprite} reference={dinoRef} />}
         {!isGameOver && <Obstacle reference={obstacleRef} />}
         <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-          Timer: {timer}
+          Timer: {timer} seconds
         </div>
         <div style={{ position: 'absolute', top: '30px', right: '10px' }}>
           Score: {score}
         </div>
+      </div>
+      <div className="buttons">
+        <button
+          onClick={handleJumpButtonClick}
+          disabled={isJumping || isGameOver}
+        >
+          Jump
+        </button>
+        <button style={{borderRadius: '10px'}}onClick={handleReturnHome}>Exit</button>
       </div>
     </div>
   );

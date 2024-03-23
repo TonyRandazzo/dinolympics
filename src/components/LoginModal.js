@@ -4,11 +4,12 @@ import { useForm } from 'react-hook-form';
 
 const LoginModal = ({ isOpen, onClose }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [isLoginMode, setIsLoginMode] = useState(true);
+  const [mode, setMode] = useState('login');
 
   const onSubmit = async (data) => {
+    const url = mode === 'login' ? `${process.env.REACT_APP_BACKEND_URL}/api/login` : `${process.env.REACT_APP_BACKEND_URL}/api/register`;
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -16,19 +17,19 @@ const LoginModal = ({ isOpen, onClose }) => {
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        console.log(`${isLoginMode ? 'Logging in with:' : 'Registering with:'}`, data);
+        console.log(`${mode === 'login' ? 'Logging in with:' : 'Registering with:'}`, data);
         onClose();
       } else {
         const errorData = await response.json();
-        console.error('Registration failed:', errorData);
+        console.error(`${mode === 'login' ? 'Login' : 'Registration'} failed:`, errorData);
       }
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error(`${mode === 'login' ? 'Login' : 'Registration'} failed:`, error);
     }
   };
 
   const toggleMode = () => {
-    setIsLoginMode(!isLoginMode);
+    setMode(mode === 'login' ? 'register' : 'login');
   };
 
   return (
@@ -44,8 +45,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         &times;
       </button>
       <div className='login-register'>
-        <input type='button' value={'Login'} onClick={toggleMode}></input>
-        <input type='button' value={'Register'} onClick={toggleMode}></input>  
+        <input type='button' value={mode === 'login' ? 'Login' : 'Register'} onClick={toggleMode}></input> 
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
@@ -53,7 +53,7 @@ const LoginModal = ({ isOpen, onClose }) => {
           <input
             className="login-input"
             type="text"
-            {...register('username', { required: isLoginMode ? 'Username is required' : 'Username is required for registration' })}
+            {...register('username', { required: mode === 'login' ? 'Username is required' : 'Username is required for registration' })}
           />
         </label>
         <label>
@@ -73,7 +73,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         </label>
         <button className="login-button" type="submit">
           <span></span>
-          {isLoginMode ? 'Login' : 'Register'}
+          {mode === 'login' ? 'Login' : 'Register'}
         </button>
       </form>
     </Modal>
