@@ -158,7 +158,7 @@ const Game2 = ({selectedSprite, setSelectedSprite}) => {
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-      <h1>Feverish run (Jump!)</h1>
+      <h3 style={{width:'70%'}}>FEVERISH RUN rules: jump!</h3>
       <div
         ref={gameAreaRef}
         style={{

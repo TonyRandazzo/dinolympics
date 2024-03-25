@@ -12,47 +12,30 @@ const ShopCart = ({ isOpen, onClose }) => {
   };
 
   const handleCheckout = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/skins`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cart }),
-      });
+    if (!shopperRecordDeleted && !deleteError) {
+      try {
+        const deleteResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/missions/shopper`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ shopper_id: 1 }),
+        });
 
-      if (!response.ok) {
-        throw new Error('Errore durante il checkout');
-      }
-
-
-      if (!shopperRecordDeleted && !deleteError) {
-        try {
-          const deleteResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/missions/shopper`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ shopper_id: 1 }),
-          });
-
-          if (!deleteResponse.ok && deleteResponse.status !== 404) {
-            throw new Error('Errore durante l\'eliminazione del record del shopper');
-          }
-
-          setShopperRecordDeleted(deleteResponse.ok);
-        } catch (error) {
-          if (error.response && error.response.status !== 404) {
-            throw error;
-          }
-          setDeleteError(error);
+        if (!deleteResponse.ok && deleteResponse.status !== 404) {
+          throw new Error('Errore durante l\'eliminazione del record del shopper');
         }
-      }
 
-      completePurchase();
-    } catch (error) {
-      console.error('Errore durante il checkout:', error.message);
+        setShopperRecordDeleted(deleteResponse.ok);
+      } catch (error) {
+        if (error.response && error.response.status !== 404) {
+          throw error;
+        }
+        setDeleteError(error);
+      }
     }
+
+    completePurchase();
   };
 
   return (

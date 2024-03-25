@@ -214,7 +214,7 @@ const sendPointsToBackend = async () => {
       </div>
       <div style={{ flex: 1 }}>
         <header className="header">
-          <h1>Crazy Maze (collect the red dots)</h1>
+          <h3 style={{width:'70%'}}> CRAZY MAZE rules: collect the red dots</h3>
           <div>Points: {score}</div>
           <div>Timer: {timeLeft} seconds</div>
         </header>

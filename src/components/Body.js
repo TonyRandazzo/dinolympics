@@ -7,6 +7,7 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
   const [missions, setMissions] = useState([]);
   const [maxPoints, setMaxPoints] = useState([]);
 
+  
   useEffect(() => {
     const fetchMissionsAndMaxPoints = async () => {
       try {
@@ -24,7 +25,30 @@ function Body({ addToCart, selectedSprite, setSelectedSprite }) {
 
     fetchMissionsAndMaxPoints();
   }, []); 
+  useEffect(() => {
+    const savePurchasedItemsToDatabase = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/skins`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ purchasedItems }), 
+        });
 
+        if (!response.ok) {
+          throw new Error('Failed to save purchased items to the database');
+        }
+        else{
+          console.log(purchasedItems)
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    savePurchasedItemsToDatabase();
+  }, [purchasedItems]);
   const handleSpriteClick = (spriteColor) => {
     setSelectedSprite(spriteColor);
   };

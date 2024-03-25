@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
 
 const Elements = () => {
     const { addToCart, purchasedItems } = useCart(); 
+    const [products, setProducts] = useState([]);
     const { cart } = useCart(); 
-    const products = [
-        { name: 'Gold Dino', description: "He's yellow and loves to play.", price: 5, img: 'yellow', available: true },
-        { name: 'Green Dino', description: "He's green and sleepy.", price: 5, img: 'green', available: true },
-        { name: 'Red Dino', description: "He's red and very competitive", price: 5, img: 'red', available: true },
-    ];
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/skins`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const productsData = await response.json();
+                setProducts(productsData.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
     const [quantities, setQuantities] = useState({});
 
     const addToCartHandler = (product, quantity) => {

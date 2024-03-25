@@ -7,6 +7,37 @@ body {
 a{
   cursor: pointer;
 }
+.game-container {
+  flex-direction: column;
+}
+
+.maze-container {
+  width: 100%;
+  order: 2; 
+}
+
+.header {
+  width: 100%;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.buttons button {
+  margin: 5px;
+  font-size: 14px;
+}
+
+.sprite {
+  transform: scale(2, 2); 
+}
+.mission-container {
+  width: 100%;
+}
 
 
 .buttons button{
@@ -702,7 +733,7 @@ form {
 
   .maze-container {
     width: 100%;
-    order: 2; /* Cambia l'ordine in cui appare nel layout */
+    order: 2; 
   }
 
   .header {

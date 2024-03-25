@@ -164,7 +164,7 @@ const Game3 = ({selectedSprite, setSelectedSprite}) => {
     <div className="game-container" style={{ display: 'flex' }}>
       <div style={{ flex: 1 }}>
         <header className="header">
-          <h1>Mad Hunting</h1>
+          <h3 style={{width:'70%'}}>MAD HUNTING rules:escape from the black tile</h3>
           <div>Punteggio: {points}</div>
           <div>Tempo rimanente: {timeLeft} secondi</div>
           <div className="buttons">

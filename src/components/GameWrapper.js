@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Outlet, Router, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const GameWrapper = () => {
     const navigate = useNavigate();
