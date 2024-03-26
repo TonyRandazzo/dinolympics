@@ -10,7 +10,7 @@ const Game1 = ({selectedSprite, setSelectedSprite}) => {
   const [maze, setMaze] = useState([]);
   const [dots, setDots] = useState([]);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(15); // Tempo iniziale in secondi
+  const [timeLeft, setTimeLeft] = useState(10);
   const { game1Points, updateGamePoints } = usePoints();
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const Game1 = ({selectedSprite, setSelectedSprite}) => {
       clearInterval(timer);
       clearTimeout(timeout);
       window.location.reload();
-    }, 15000); 
+    }, 10000); 
 
     generateMaze(); 
 
